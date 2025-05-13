@@ -1,6 +1,7 @@
 package com.project.manageMark.controller;
 
-import com.project.manageMark.dto.CandidateDTO;
+import com.project.manageMark.dto.Request.CandidateRequest;
+import com.project.manageMark.dto.Response.CandidateResponse;
 import com.project.manageMark.service.CandidateService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,26 +21,26 @@ public class CandidateController {
     }
 
     @PostMapping
-    public ResponseEntity<CandidateDTO> createCandidate(@RequestBody @Valid CandidateDTO dto) {
-        CandidateDTO created = candidateService.createCandidate(dto);
+    public ResponseEntity<CandidateResponse> createCandidate(@RequestBody @Valid CandidateRequest request) {
+        CandidateResponse created = candidateService.createCandidate(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
-    public ResponseEntity<List<CandidateDTO>> getAllCandidates() {
+    public ResponseEntity<List<CandidateResponse>> getAllCandidates() {
         return ResponseEntity.ok(candidateService.getAllCandidates());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CandidateDTO> getCandidateById(@PathVariable Long id) {
+    public ResponseEntity<CandidateResponse> getCandidateById(@PathVariable Long id) {
         return ResponseEntity.ok(candidateService.getCandidateById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CandidateDTO> updateCandidate(
+    public ResponseEntity<CandidateResponse> updateCandidate(
             @PathVariable Long id,
-            @RequestBody @Valid CandidateDTO dto) {
-        return ResponseEntity.ok(candidateService.updateCandidate(id, dto));
+            @RequestBody @Valid CandidateRequest request) {
+        return ResponseEntity.ok(candidateService.updateCandidate(id, request));
     }
 
     @DeleteMapping("/{id}")

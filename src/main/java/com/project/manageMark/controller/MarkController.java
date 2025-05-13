@@ -1,6 +1,8 @@
 package com.project.manageMark.controller;
 
-import com.project.manageMark.dto.MarkDTO;
+import com.project.manageMark.dto.Request.MarkRequest;
+import com.project.manageMark.dto.Request.UpdateMarkRequest;
+import com.project.manageMark.dto.Response.MarkResponse;
 import com.project.manageMark.service.MarkService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,23 +22,23 @@ public class MarkController {
         }
 
         @PostMapping
-        public ResponseEntity<MarkDTO> createMark(@RequestBody @Valid MarkDTO dto) {
-                MarkDTO created = markService.createMark(dto);
+        public ResponseEntity<MarkResponse> createMark(@RequestBody @Valid MarkRequest request) {
+                MarkResponse created = markService.createMark(request);
                 return ResponseEntity.status(HttpStatus.CREATED).body(created);
         }
 
 
         @GetMapping("/{id}")
-        public ResponseEntity<MarkDTO> getMarkById(@PathVariable Long id) {
-                MarkDTO mark = markService.getMarkById(id);
+        public ResponseEntity<MarkResponse> getMarkById(@PathVariable Long id) {
+                MarkResponse mark = markService.getMarkById(id);
                 return ResponseEntity.ok(mark);
         }
 
         @PutMapping("/{id}")
-        public ResponseEntity<MarkDTO> updateMark(
+        public ResponseEntity<MarkResponse> updateMark(
                 @PathVariable Long id,
-                @RequestBody @Valid MarkDTO dto) {
-                MarkDTO updatedMark = markService.updateMark(id, dto);
+                @RequestBody @Valid UpdateMarkRequest request) {
+                MarkResponse updatedMark = markService.updateMark(id, request);
                 return ResponseEntity.ok(updatedMark);
         }
 
@@ -47,14 +49,14 @@ public class MarkController {
         }
 
         @GetMapping("/candidate/{candidateId}")
-        public ResponseEntity<List<MarkDTO>> getMarksByCandidateId(@PathVariable Long candidateId) {
-                List<MarkDTO> marks = markService.getMarksByCandidateId(candidateId);
+        public ResponseEntity<List<MarkResponse>> getMarksByCandidateId(@PathVariable Long candidateId) {
+                List<MarkResponse> marks = markService.getMarksByCandidateId(candidateId);
                 return ResponseEntity.ok(marks);
         }
 
         @GetMapping("/exam/{examId}")
-        public ResponseEntity<List<MarkDTO>> getMarksByExamId(@PathVariable Long subjectId) {
-                List<MarkDTO> marks = markService.getMarksByExamId(subjectId);
+        public ResponseEntity<List<MarkResponse>> getMarksByExamId(@PathVariable Long subjectId) {
+                List<MarkResponse> marks = markService.getMarksByExamId(subjectId);
                 return ResponseEntity.ok(marks);
         }
 

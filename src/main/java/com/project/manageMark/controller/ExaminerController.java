@@ -1,6 +1,7 @@
 package com.project.manageMark.controller;
 
-import com.project.manageMark.dto.ExaminerDTO;
+import com.project.manageMark.dto.Request.ExaminerRequest;
+import com.project.manageMark.dto.Response.ExaminerResponse;
 import com.project.manageMark.service.ExaminerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,26 +21,26 @@ public class ExaminerController {
     }
 
     @PostMapping
-    public ResponseEntity<ExaminerDTO> createExaminer(@RequestBody @Valid ExaminerDTO dto) {
-        ExaminerDTO created = examinerService.createExaminer(dto);
+    public ResponseEntity<ExaminerResponse> createExaminer(@RequestBody @Valid ExaminerRequest request) {
+        ExaminerResponse created = examinerService.createExaminer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
-    public ResponseEntity<List<ExaminerDTO>> getAllExaminers() {
+    public ResponseEntity<List<ExaminerResponse>> getAllExaminers() {
         return ResponseEntity.ok(examinerService.getAllExaminers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExaminerDTO> getExaminerById(@PathVariable Long id) {
+    public ResponseEntity<ExaminerResponse> getExaminerById(@PathVariable Long id) {
         return ResponseEntity.ok(examinerService.getExaminerById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ExaminerDTO> updateExaminer(
+    public ResponseEntity<ExaminerResponse> updateExaminer(
             @PathVariable Long id,
-            @RequestBody @Valid ExaminerDTO dto) {
-        return ResponseEntity.ok(examinerService.updateExaminer(id, dto));
+            @RequestBody @Valid ExaminerRequest request) {
+        return ResponseEntity.ok(examinerService.updateExaminer(id, request));
     }
 
     @DeleteMapping("/{id}")

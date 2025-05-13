@@ -1,6 +1,8 @@
 package com.project.manageMark.service;
 
-import com.project.manageMark.dto.MarkDTO;
+import com.project.manageMark.dto.Request.MarkRequest;
+import com.project.manageMark.dto.Request.UpdateMarkRequest;
+import com.project.manageMark.dto.Response.MarkResponse;
 import com.project.manageMark.entity.Candidate;
 import com.project.manageMark.entity.Mark;
 import com.project.manageMark.entity.Exam;
@@ -30,15 +32,15 @@ public class MarkServiceImpl implements MarkService {
     }
 
     @Override
-    public MarkDTO createMark(MarkDTO dto) {
-        Candidate candidate = candidateRepository.findById(dto.getStudentId())
+    public MarkResponse createMark(MarkRequest request) {
+        Candidate candidate = candidateRepository.findById(request.getStudentId())
                 .orElseThrow(() -> new RuntimeException("Candidate not found"));
 
-        Exam exam = examRepository.findById(dto.getExamId())
+        Exam exam = examRepository.findById(request.getExamId())
                 .orElseThrow(() -> new RuntimeException("Subject not found"));
 
         Mark mark = new Mark();
-        mark.setScore(dto.getScore());
+        mark.setScore(null);
         mark.setCandidate(candidate);
         mark.setExam(exam);
 
@@ -48,18 +50,18 @@ public class MarkServiceImpl implements MarkService {
 
 
     @Override
-    public MarkDTO getMarkById(Long id) {
+    public MarkResponse getMarkById(Long id) {
         Mark mark = markRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Mark not found"));
         return toDTO(mark);
     }
 
     @Override
-    public MarkDTO updateMark(Long id, MarkDTO dto) {
+    public MarkResponse updateMark(Long id, UpdateMarkRequest request) {
         Mark mark = markRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Mark not found"));
 
-        mark.setScore(dto.getScore());
+        mark.setScore(request.getScore());
         Mark updatedMark = markRepository.save(mark);
         return toDTO(updatedMark);
     }
@@ -72,14 +74,14 @@ public class MarkServiceImpl implements MarkService {
     }
 
     @Override
-    public List<MarkDTO> getMarksByCandidateId(Long candidateId) {
+    public List<MarkResponse> getMarksByCandidateId(Long candidateId) {
         return markRepository.findByCandidateId(candidateId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<MarkDTO> getMarksByExamId(Long examId) {
+    public List<MarkResponse> getMarksByExamId(Long examId) {
         return markRepository.findByExamId(examId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
@@ -95,8 +97,8 @@ public class MarkServiceImpl implements MarkService {
         return markRepository.findAverageScoreByCandidateId(examId);
     }
 
-    private MarkDTO toDTO(Mark mark) {
-        MarkDTO dto = new MarkDTO();
+    private MarkResponse toDTO(Mark mark) {
+        MarkResponse dto = new MarkResponse();
         dto.setScore(mark.getScore());
         dto.setStudentId(mark.getCandidate().getId());
         dto.setExamId(mark.getExam().getId());

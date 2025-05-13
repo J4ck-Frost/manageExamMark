@@ -1,13 +1,15 @@
 package com.project.manageMark.service;
 
-import com.project.manageMark.dto.ExamDTO;
+import com.project.manageMark.dto.Request.ExamRequest;
+import com.project.manageMark.dto.Response.ExamResponse;
+
 import java.util.List;
 
 public interface ExamService {
-    ExamDTO createExam(ExamDTO dto);
-    List<ExamDTO> getAllExams();
-    ExamDTO getExamById(Long id);
-    ExamDTO updateExam(Long id, ExamDTO dto);
+    ExamResponse createExam(ExamRequest request);
+    List<ExamResponse> getAllExams();
+    ExamResponse getExamById(Long id);
+    ExamResponse updateExam(Long id, ExamRequest request);
     void deleteExam(Long id);
-    List<ExamDTO> getExamsByExaminerId(Long teacherId);
+    List<ExamResponse> getExamsByExaminerId(Long teacherId);
 }

@@ -1,6 +1,7 @@
 package com.project.manageMark.controller;
 
-import com.project.manageMark.dto.ExamDTO;
+import com.project.manageMark.dto.Request.ExamRequest;
+import com.project.manageMark.dto.Response.ExamResponse;
 import com.project.manageMark.service.ExamService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,26 +21,26 @@ public class ExamController {
     }
 
     @PostMapping
-    public ResponseEntity<ExamDTO> createExam(@RequestBody @Valid ExamDTO dto) {
-        ExamDTO created = examService.createExam(dto);
+    public ResponseEntity<ExamResponse> createExam(@RequestBody @Valid ExamRequest request) {
+        ExamResponse created = examService.createExam(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
-    public ResponseEntity<List<ExamDTO>> getAllExams() {
+    public ResponseEntity<List<ExamResponse>> getAllExams() {
         return ResponseEntity.ok(examService.getAllExams());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExamDTO> getExamById(@PathVariable Long id) {
+    public ResponseEntity<ExamResponse> getExamById(@PathVariable Long id) {
         return ResponseEntity.ok(examService.getExamById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ExamDTO> updateExam(
+    public ResponseEntity<ExamResponse> updateExam(
             @PathVariable Long id,
-            @RequestBody @Valid ExamDTO dto) {
-        return ResponseEntity.ok(examService.updateExam(id, dto));
+            @RequestBody @Valid ExamRequest request) {
+        return ResponseEntity.ok(examService.updateExam(id, request));
     }
 
     @DeleteMapping("/{id}")
@@ -49,7 +50,7 @@ public class ExamController {
     }
 
     @GetMapping("/examiner/{examinerId}")
-    public ResponseEntity<List<ExamDTO>> getExamsByExaminerId(@PathVariable Long teacherId) {
+    public ResponseEntity<List<ExamResponse>> getExamsByExaminerId(@PathVariable Long teacherId) {
         return ResponseEntity.ok(examService.getExamsByExaminerId(teacherId));
     }
 }

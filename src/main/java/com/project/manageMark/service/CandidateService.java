@@ -1,12 +1,14 @@
 package com.project.manageMark.service;
 
-import com.project.manageMark.dto.CandidateDTO;
+import com.project.manageMark.dto.Request.CandidateRequest;
+import com.project.manageMark.dto.Response.CandidateResponse;
+
 import java.util.List;
 
 public interface CandidateService {
-    CandidateDTO createCandidate(CandidateDTO dto);
-    List<CandidateDTO> getAllCandidates();
-    CandidateDTO getCandidateById(Long id);
-    CandidateDTO updateCandidate(Long id, CandidateDTO dto);
+    CandidateResponse createCandidate(CandidateRequest request);
+    List<CandidateResponse> getAllCandidates();
+    CandidateResponse getCandidateById(Long id);
+    CandidateResponse updateCandidate(Long id, CandidateRequest request);
     void deleteCandidate(Long id);
 }

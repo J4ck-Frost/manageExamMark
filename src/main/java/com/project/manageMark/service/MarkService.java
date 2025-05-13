@@ -1,15 +1,18 @@
 package com.project.manageMark.service;
 
-import com.project.manageMark.dto.MarkDTO;
+import com.project.manageMark.dto.Request.MarkRequest;
+import com.project.manageMark.dto.Request.UpdateMarkRequest;
+import com.project.manageMark.dto.Response.MarkResponse;
+
 import java.util.List;
 
 public interface MarkService {
-    MarkDTO createMark(MarkDTO dto);
-    MarkDTO getMarkById(Long id);
-    MarkDTO updateMark(Long id, MarkDTO dto);
+    MarkResponse createMark(MarkRequest request);
+    MarkResponse getMarkById(Long id);
+    MarkResponse updateMark(Long id, UpdateMarkRequest request);
     void deleteMark(Long id);
-    List<MarkDTO> getMarksByCandidateId(Long studentId);
-    List<MarkDTO> getMarksByExamId(Long subjectId);
-    Double getAverageScoreByCandidateId(Long studentId);
-    Double getAverageScoreByExamId(Long subjectId);
+    List<MarkResponse> getMarksByCandidateId(Long candidateId);
+    List<MarkResponse> getMarksByExamId(Long examId);
+    Double getAverageScoreByCandidateId(Long candidateId);
+    Double getAverageScoreByExamId(Long examId);
 }

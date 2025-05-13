@@ -1,6 +1,7 @@
 package com.project.manageMark.service;
 
-import com.project.manageMark.dto.ExamDTO;
+import com.project.manageMark.dto.Request.ExamRequest;
+import com.project.manageMark.dto.Response.ExamResponse;
 import com.project.manageMark.entity.Exam;
 import com.project.manageMark.entity.Examiner;
 import com.project.manageMark.exception.ResourceNotFoundException;
@@ -22,48 +23,48 @@ public class ExamServiceImpl implements ExamService {
     private final ExaminerRepository examinerRepository;
 
     @Override
-    public ExamDTO createExam(ExamDTO dto) {
-        Examiner examiner = examinerRepository.findById(dto.getTeacherId())
+    public ExamResponse createExam(ExamRequest request) {
+        Examiner examiner = examinerRepository.findById(request.getTeacherId())
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found"));
 
         Exam exam = new Exam();
-        exam.setName(dto.getName());
+        exam.setName(request.getName());
         exam.setExaminer(examiner);
-        exam.setDescription(dto.getDescription());
-        exam.setStartDate(dto.getStartDate());
-        exam.setEndDate(dto.getEndDate());
+        exam.setDescription(request.getDescription());
+        exam.setStartDate(request.getStartDate());
+        exam.setEndDate(request.getEndDate());
 
         Exam savedExam = examRepository.save(exam);
         return toDTO(savedExam);
     }
 
     @Override
-    public List<ExamDTO> getAllExams() {
+    public List<ExamResponse> getAllExams() {
         return examRepository.findAll().stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ExamDTO getExamById(Long id) {
+    public ExamResponse getExamById(Long id) {
         Exam exam = examRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Subject not found"));
         return toDTO(exam);
     }
 
     @Override
-    public ExamDTO updateExam(Long id, ExamDTO dto) {
+    public ExamResponse updateExam(Long id, ExamRequest request) {
         Exam exam = examRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Subject not found"));
 
-        Examiner examiner = examinerRepository.findById(dto.getTeacherId())
+        Examiner examiner = examinerRepository.findById(request.getTeacherId())
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found"));
 
-        exam.setName(dto.getName());
+        exam.setName(request.getName());
         exam.setExaminer(examiner);
-        exam.setDescription(dto.getDescription());
-        exam.setStartDate(dto.getStartDate());
-        exam.setEndDate(dto.getEndDate());
+        exam.setDescription(request.getDescription());
+        exam.setStartDate(request.getStartDate());
+        exam.setEndDate(request.getEndDate());
 
         Exam updatedExam = examRepository.save(exam);
         return toDTO(updatedExam);
@@ -77,19 +78,20 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-        public List<ExamDTO> getExamsByExaminerId(Long teacherId) {
+        public List<ExamResponse> getExamsByExaminerId(Long teacherId) {
         return examRepository.findByExaminerId(teacherId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    private ExamDTO toDTO(Exam exam) {
-        ExamDTO dto = new ExamDTO();
-        dto.setName(exam.getName());
-        dto.setTeacherId(exam.getExaminer().getId());
-        dto.setEndDate(exam.getEndDate());
-        dto.setDescription(exam.getDescription());
-        dto.setStartDate(exam.getStartDate());
-        return dto;
+    private ExamResponse toDTO(Exam exam) {
+        ExamResponse response = new ExamResponse();
+        response.setId(exam.getId());
+        response.setName(exam.getName());
+        response.setTeacherId(exam.getExaminer().getId());
+        response.setEndDate(exam.getEndDate());
+        response.setDescription(exam.getDescription());
+        response.setStartDate(exam.getStartDate());
+        return response;
     }
 }
