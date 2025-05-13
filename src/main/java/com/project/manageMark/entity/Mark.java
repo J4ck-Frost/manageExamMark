@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"candidate_id", "exam_id"})
+)
 public class Mark {
 
         @Id
@@ -18,10 +21,10 @@ public class Mark {
         private Double score;
 
         @ManyToOne
-        @JoinColumn(name = "exam_id")
+        @JoinColumn(name = "exam_id",nullable = false)
         private Exam exam;
 
         @ManyToOne
-        @JoinColumn(name = "candidate_id")
+        @JoinColumn(name = "candidate_id", nullable = false)
         private Candidate candidate;
 }
